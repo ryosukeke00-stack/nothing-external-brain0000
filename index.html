@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#111411">
+<meta name="description" content="Nothing Phone向けの個人用外部脳。タスク、アイデア、収益を記録します。">
+<link rel="manifest" href="./manifest.webmanifest">
+<title>EXTERNAL BRAIN</title>
+<style>
+:root{color-scheme:dark;--bg:#0d100e;--panel:#171b18;--panel2:#202622;--line:#343c36;--text:#f1f5f1;--muted:#a5b0a8;--green:#b7e4c7;--green2:#6cbd8a;--danger:#f2a9a9}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at top,#17221a 0,#0d100e 55%);color:var(--text);font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;min-height:100vh}
+button,input,textarea,select{font:inherit}button{cursor:pointer}
+.wrap{max-width:760px;margin:0 auto;padding:calc(18px + env(safe-area-inset-top)) 16px calc(28px + env(safe-area-inset-bottom))}
+header{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:18px}.eyebrow{font-size:11px;letter-spacing:.2em;color:var(--green);font-weight:800}.date{font-size:12px;color:var(--muted);text-align:right}.title{font-size:clamp(25px,7vw,36px);font-weight:850;letter-spacing:-.05em;margin:5px 0 0;line-height:1.05}.title span{color:var(--green)}
+.card{background:rgba(23,27,24,.95);border:1px solid var(--line);border-radius:20px;padding:17px;margin:12px 0;box-shadow:0 8px 24px #0002}
+.hero{background:linear-gradient(130deg,#263c2d,#17231b 62%,#151a16);border-color:#496651;padding:20px}.sectionhead{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:12px}.sectionhead h2{font-size:16px;margin:0;letter-spacing:-.02em}.pill{font-size:11px;border:1px solid #526859;border-radius:999px;color:var(--green);padding:5px 8px;white-space:nowrap}.muted{color:var(--muted);font-size:13px;line-height:1.55}.focusline{font-size:19px;font-weight:750;line-height:1.4;margin:9px 0 12px}.row{display:flex;gap:8px;align-items:center}.row>*{min-width:0}.grow{flex:1}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.stat{background:#111713;border:1px solid #354239;border-radius:14px;padding:12px}.stat .num{font-size:23px;font-weight:800;color:var(--green)}.stat .label{font-size:11px;color:var(--muted);margin-top:2px}
+label{display:block;color:var(--muted);font-size:12px;margin:10px 0 6px}input,textarea,select{width:100%;background:#0f1310;color:var(--text);border:1px solid var(--line);border-radius:11px;padding:12px;outline:none}input:focus,textarea:focus,select:focus{border-color:var(--green2)}textarea{resize:vertical;min-height:78px}button{border:1px solid var(--line);background:#252d27;color:var(--text);padding:10px 12px;border-radius:11px}button.primary{background:var(--green);color:#112016;border-color:var(--green);font-weight:800}button.ghost{background:transparent}button.small{font-size:12px;padding:7px 9px}.formrow{display:flex;gap:8px}.formrow>*{flex:1;min-width:0}.list{display:flex;flex-direction:column;gap:8px}.item{border:1px solid var(--line);border-radius:13px;padding:11px;display:flex;gap:10px;align-items:flex-start;background:#121713}.item input[type=checkbox]{width:19px;height:19px;accent-color:var(--green);margin:2px 0 0}.itemtext{flex:1;min-width:0;overflow-wrap:anywhere}.itemtext.done{text-decoration:line-through;color:#7d8980}.itemtitle{font-size:14px;font-weight:650}.itemmeta{font-size:11px;color:var(--muted);margin-top:4px}.itemactions{display:flex;gap:5px;flex-wrap:wrap}.empty{border:1px dashed #3a443c;border-radius:12px;padding:16px;color:var(--muted);font-size:13px;text-align:center}
+.nav{display:flex;gap:7px;overflow:auto;padding:3px 0 8px}.nav button{flex:1;min-width:max-content;border-radius:999px}.nav button.active{background:var(--green);color:#132016;border-color:var(--green);font-weight:800}
+.panel[hidden]{display:none}.foot{font-size:11px;color:var(--muted);text-align:center;padding:16px 8px;line-height:1.6}.notice{font-size:12px;color:#c9d8ce;background:#17221a;border:1px solid #314638;padding:11px;border-radius:12px;line-height:1.55}.negative{color:var(--danger)}.money{font-variant-numeric:tabular-nums}.linkbtn{display:inline-block;text-decoration:none;color:#142016;background:var(--green);font-size:13px;font-weight:800;padding:10px 13px;border-radius:10px}.settingsgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px}@media(min-width:600px){.layout{display:grid;grid-template-columns:1fr 1fr;gap:12px}.layout .card{margin:0}.full{grid-column:1/-1}}@media(max-width:380px){.wrap{padding-left:11px;padding-right:11px}.card{padding:14px}.title{font-size:26px}.formrow{flex-direction:column}.settingsgrid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header><div><div class="eyebrow">PERSONAL OPERATING SYSTEM / 001</div><h1 class="title">EXTERNAL <span>BRAIN</span></h1></div><div class="date" id="todayDate"></div></header>
+<section class="card hero">
+ <div class="sectionhead"><h2>今日の一歩</h2><span class="pill">FOCUS ON VALUE</span></div>
+ <div class="focusline" id="focusText">収益につながる作業を1つ進める。</div>
+ <div class="muted">情報を集めるだけで終わらせない。小さく作り、反応を確かめる。</div>
+ <div class="row" style="margin-top:14px"><button class="primary" id="focusEdit">今日のタスクを設定</button><button class="ghost" id="focusStart">25分集中を開始</button></div>
+ <div class="muted" id="timerDisplay" style="margin-top:10px" aria-live="polite">集中タイマー：停止中</div>
+</section>
+<div class="grid">
+ <div class="stat"><div class="num" id="taskStat">0/0</div><div class="label">今日のタスク完了</div></div>
+ <div class="stat"><div class="num money" id="incomeStat">¥0</div><div class="label">今月の収支（記録分）</div></div>
+</div>
+<nav class="nav" aria-label="メイン機能" style="margin-top:16px">
+ <button class="active" data-tab="tasks">今日のタスク</button><button data-tab="ideas">アイデア保存</button><button data-tab="ai">AIと考える</button><button data-tab="money">収益記録</button><button data-tab="backup">設定・保存</button>
+</nav>
+<section class="panel" id="panel-tasks">
+ <div class="card">
+  <div class="sectionhead"><h2>今日やること</h2><span class="pill">ONE STEP AT A TIME</span></div>
+  <form id="taskForm"><label for="taskInput">次にやる作業（動詞で始める）</label><input id="taskInput" maxlength="180" placeholder="例：既存商品を3つ比較する" required><div class="row" style="margin-top:9px"><button class="primary" type="submit">＋ タスクを追加</button><button type="button" id="clearDone">完了分を整理</button></div></form>
+  <div class="list" id="taskList" style="margin-top:12px"></div>
+ </div>
+</section>
+<section class="panel" id="panel-ideas" hidden>
+ <div class="card">
+  <div class="sectionhead"><h2>アイデア箱</h2><span class="pill">CAPTURE FIRST</span></div>
+  <form id="ideaForm"><label for="ideaInput">思いついたこと</label><textarea id="ideaInput" maxlength="1200" placeholder="一文でOK。整理はあとで。" required></textarea><label for="ideaTag">分類</label><select id="ideaTag"><option>商品アイデア</option><option>顧客の困りごと</option><option>改善案</option><option>学び・気づき</option><option>その他</option></select><button class="primary" type="submit" style="margin-top:10px">＋ アイデアを保存</button></form>
+  <div class="list" id="ideaList" style="margin-top:12px"></div>
+ </div>
+</section>
+<section class="panel" id="panel-ai" hidden>
+ <div class="card">
+  <div class="sectionhead"><h2>AIと考える</h2><span class="pill">THINK → BUILD</span></div>
+  <div class="notice">この最小版はAI APIを内蔵していません。下のテンプレートをコピーしてChatGPTを開き、回答を得たらPCで作業してください。APIキーはこのアプリに入力しないでください。</div>
+  <label for="aiGoal">商品案・現在の課題</label><textarea id="aiGoal" placeholder="例：教員向けの評価記録テンプレートを作りたい"></textarea>
+  <label for="aiEvidence">分かっている事実・反応</label><textarea id="aiEvidence" placeholder="例：利用者2人に聞いた。入力が面倒という声があった。"></textarea>
+  <label for="aiTime">今日使える時間</label><select id="aiTime"><option value="15分">15分</option><option value="30分" selected>30分</option><option value="60分">60分</option></select>
+  <div class="row" style="margin-top:10px"><button class="primary" id="makePrompt">AI用プロンプトを作る</button><button id="openChatGPT">ChatGPTを開く</button></div>
+  <label for="promptOut">コピーしてChatGPTに送る文章</label><textarea id="promptOut" placeholder="「AI用プロンプトを作る」を押すとここに表示されます。"></textarea>
+  <button id="copyPrompt" style="margin-top:8px">プロンプトをコピー</button>
+ </div>
+</section>
+<section class="panel" id="panel-money" hidden>
+ <div class="card">
+  <div class="sectionhead"><h2>収益・経費の記録</h2><span class="pill">RECORD REALITY</span></div>
+  <form id="moneyForm"><div class="formrow"><div><label for="moneyType">種類</label><select id="moneyType"><option value="income">売上・収入</option><option value="expense">経費</option></select></div><div><label for="moneyDate">日付</label><input id="moneyDate" type="date" required></div></div>
+  <div class="formrow"><div><label for="moneyAmount">金額（円）</label><input id="moneyAmount" type="number" min="1" step="1" placeholder="1000" required></div><div><label for="moneyNote">内容</label><input id="moneyNote" maxlength="120" placeholder="例：テンプレート販売" required></div></div>
+  <button class="primary" type="submit" style="margin-top:10px">＋ 記録する</button></form>
+  <div class="grid" style="margin-top:12px"><div class="stat"><div class="label">今月の売上</div><div class="num money" id="grossStat">¥0</div></div><div class="stat"><div class="label">今月の経費</div><div class="num money" id="expenseStat">¥0</div></div></div>
+  <div class="list" id="moneyList" style="margin-top:12px"></div>
+  <div class="muted" style="margin-top:10px">この記録は簡易的な個人管理用です。税務申告用の帳簿を自動生成する機能はありません。</div>
+ </div>
+</section>
+<section class="panel" id="panel-backup" hidden>
+ <div class="card">
+  <div class="sectionhead"><h2>データの保存・復元</h2><span class="pill">YOUR DATA</span></div>
+  <div class="notice">データはこのブラウザのローカルストレージに保存されます。ブラウザデータの消去や端末変更で失われる可能性があるため、定期的にJSONを書き出してください。クラウド同期はありません。</div>
+  <div class="row" style="margin-top:12px"><button class="primary" id="exportData">バックアップを書き出す</button><button id="importButton">バックアップを読み込む</button><input type="file" id="importFile" accept="application/json,.json" hidden></div>
+  <label for="dataStatus">保存状態</label><div id="dataStatus" class="muted">この端末に保存します。</div>
+  <div class="settingsgrid" style="margin-top:12px"><button id="resetTasks">タスクだけ削除</button><button id="resetAll" class="ghost">全データを削除</button></div>
+  <p class="muted">AI連携はChatGPTへのプロンプト作成・コピー・起動までです。自動送信や回答の取り込みは未実装です。</p>
+ </div>
+</section>
+<div class="foot">EXTERNAL BRAIN / v1.0<br>小さく作る。記録する。反応を確かめる。<br>端末内データの定期バックアップを忘れずに。</div>
+</div>
+<script>
+(()=> {
+const KEY='external-brain-v1';
+const $=id=>document.getElementById(id);
+const now=new Date();
+const dateKey=d=>{const x=new Date(d);return `${x.getFullYear()}-${String(x.getMonth()+1).padStart(2,'0')}-${String(x.getDate()).padStart(2,'0')}`};
+const monthKey=dateKey(now).slice(0,7);
+const uid=()=>`${Date.now().toString(36)}-${Math.random().toString(36).slice(2,8)}`;
+let state={tasks:[],ideas:[],money:[],focusText:'収益につながる作業を1つ進める。'};
+function load(){try{const raw=localStorage.getItem(KEY);if(raw){const parsed=JSON.parse(raw);state={...state,...parsed};}}catch(e){$('dataStatus').textContent='保存データを読み込めませんでした。バックアップから復元してください。';}}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(state));$('dataStatus').textContent=`最終保存：${new Date().toLocaleString('ja-JP')}（この端末のブラウザ内）`;}catch(e){$('dataStatus').textContent='保存できません。ブラウザの保存領域を確認してください。';}}
+function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+function yen(n){return '¥'+Number(n||0).toLocaleString('ja-JP');}
+function renderTasks(){
+ const list=$('taskList');const today=dateKey(new Date());const tasks=state.tasks.filter(t=>t.date===today);
+ list.innerHTML=tasks.length?tasks.map(t=>`<div class="item"><input type="checkbox" data-task-check="${t.id}" ${t.done?'checked':''} aria-label="完了"><div class="itemtext ${t.done?'done':''}"><div class="itemtitle">${esc(t.text)}</div><div class="itemmeta">${t.done?'完了':'未完了'}</div></div><button class="small ghost" data-task-del="${t.id}">削除</button></div>`).join(''):'<div class="empty">今日のタスクはまだありません。まず1つだけ追加しましょう。</div>';
+ list.querySelectorAll('[data-task-check]').forEach(el=>el.addEventListener('change',()=>{const t=state.tasks.find(x=>x.id===el.dataset.taskCheck);if(t)t.done=el.checked;save();render();}));
+ list.querySelectorAll('[data-task-del]').forEach(el=>el.addEventListener('click',()=>{state.tasks=state.tasks.filter(x=>x.id!==el.dataset.taskDel);save();render();}));
+ $('taskStat').textContent=`${tasks.filter(t=>t.done).length}/${tasks.length}`;
+}
+function renderIdeas(){
+ const list=$('ideaList');list.innerHTML=state.ideas.length?state.ideas.slice().reverse().map(i=>`<div class="item"><div class="itemtext"><div class="itemtitle">${esc(i.text)}</div><div class="itemmeta">${esc(i.tag)} ・ ${new Date(i.created).toLocaleDateString('ja-JP')}</div></div><button class="small ghost" data-idea-task="${i.id}">タスク化</button><button class="small ghost" data-idea-del="${i.id}">削除</button></div>`).join(''):'<div class="empty">思いつきを一文で保存。分類や整理はあとで。</div>';
+ list.querySelectorAll('[data-idea-del]').forEach(el=>el.addEventListener('click',()=>{state.ideas=state.ideas.filter(x=>x.id!==el.dataset.ideaDel);save();renderIdeas();}));
+ list.querySelectorAll('[data-idea-task]').forEach(el=>el.addEventListener('click',()=>{const i=state.ideas.find(x=>x.id===el.dataset.ideaTask);if(i){state.tasks.push({id:uid(),text:i.text.slice(0,180),date:dateKey(new Date()),done:false});save();render();switchTab('tasks');}}));
+}
+function renderMoney(){
+ const entries=state.money.filter(m=>m.date?.startsWith(monthKey));
+ const gross=entries.filter(m=>m.type==='income').reduce((a,m)=>a+Number(m.amount),0);
+ const expenses=entries.filter(m=>m.type==='expense').reduce((a,m)=>a+Number(m.amount),0);
+ $('grossStat').textContent=yen(gross);$('expenseStat').textContent=yen(expenses);$('incomeStat').textContent=yen(gross-expenses);
+ const list=$('moneyList');list.innerHTML=state.money.length?state.money.slice().sort((a,b)=>b.date.localeCompare(a.date)).map(m=>`<div class="item"><div class="itemtext"><div class="itemtitle">${esc(m.note)}</div><div class="itemmeta">${esc(m.date)} ・ ${m.type==='income'?'売上・収入':'経費'}</div></div><div class="itemtitle money ${m.type==='expense'?'negative':''}">${m.type==='expense'?'−':'+'}${yen(m.amount)}</div><button class="small ghost" data-money-del="${m.id}">削除</button></div>`).join(''):'<div class="empty">売上も経費も、事実が発生したときに記録します。</div>';
+ list.querySelectorAll('[data-money-del]').forEach(el=>el.addEventListener('click',()=>{state.money=state.money.filter(x=>x.id!==el.dataset.moneyDel);save();renderMoney();renderStatsOnly();}));
+}
+function renderStatsOnly(){const entries=state.money.filter(m=>m.date?.startsWith(monthKey));$('incomeStat').textContent=yen(entries.reduce((a,m)=>a+(m.type==='income'?1:-1)*Number(m.amount),0));}
+function render(){renderTasks();renderIdeas();renderMoney();$('focusText').textContent=state.focusText||'収益につながる作業を1つ進める。';}
+function switchTab(tab){document.querySelectorAll('.nav button').forEach(b=>b.classList.toggle('active',b.dataset.tab===tab));document.querySelectorAll('.panel').forEach(p=>p.hidden=p.id!==`panel-${tab}`);}
+document.querySelectorAll('.nav button').forEach(b=>b.addEventListener('click',()=>switchTab(b.dataset.tab)));
+$('taskForm').addEventListener('submit',e=>{e.preventDefault();const text=$('taskInput').value.trim();if(!text)return;state.tasks.push({id:uid(),text,date:dateKey(new Date()),done:false});$('taskInput').value='';save();render();});
+$('clearDone').addEventListener('click',()=>{const today=dateKey(new Date());state.tasks=state.tasks.filter(t=>!(t.date===today&&t.done));save();render();});
+$('ideaForm').addEventListener('submit',e=>{e.preventDefault();const text=$('ideaInput').value.trim();if(!text)return;state.ideas.push({id:uid(),text,tag:$('ideaTag').value,created:new Date().toISOString()});$('ideaInput').value='';save();renderIdeas();});
+$('moneyDate').value=dateKey(new Date());
+$('moneyForm').addEventListener('submit',e=>{e.preventDefault();const amount=Number($('moneyAmount').value);if(!Number.isFinite(amount)||amount<=0)return;state.money.push({id:uid(),type:$('moneyType').value,date:$('moneyDate').value,amount:Math.round(amount),note:$('moneyNote').value.trim()});$('moneyAmount').value='';$('moneyNote').value='';save();renderMoney();renderStatsOnly();});
+$('focusEdit').addEventListener('click',()=>{const text=prompt('今日の最優先タスクを入力してください',state.focusText);if(text&&text.trim()){state.focusText=text.trim().slice(0,180);save();render();}});
+let timer=null,remaining=25*60;
+function showTimer(){const m=Math.floor(remaining/60),s=remaining%60;$('timerDisplay').textContent=`集中タイマー：${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;}
+$('focusStart').addEventListener('click',()=>{if(timer){clearInterval(timer);timer=null;$('focusStart').textContent='25分集中を再開';$('timerDisplay').textContent='集中タイマー：一時停止中';return;}if(remaining<=0)remaining=25*60;$('focusStart').textContent='タイマーを一時停止';timer=setInterval(()=>{remaining--;showTimer();if(remaining<=0){clearInterval(timer);timer=null;$('focusStart').textContent='もう一度25分集中';$('timerDisplay').textContent='終了です。成果を記録しましょう。';if(navigator.vibrate)navigator.vibrate([200,100,200]);}},1000);showTimer();});
+function makePrompt(){return `私はデジタル商品を作って収益化したいです。\n現在の商品案：${$('aiGoal').value.trim()||'未記入'}\n分かっている事実・反応：${$('aiEvidence').value.trim()||'未記入'}\n今日使える時間：${$('aiTime').value}\n\n次の条件で支援してください。\n1. 新しい案をむやみに増やさず、現在の課題に集中する。\n2. 需要を確かめる行動を優先する。\n3. 今日の作業を時間内に終わる単位に分ける。\n4. 完了条件を明確にする。\n5. 最後に、成果記録と次の作業を短くまとめる。\n6. 不明な事実は推測せず、確認事項として示す。`;}
+$('makePrompt').addEventListener('click',()=>{$('promptOut').value=makePrompt();});
+$('copyPrompt').addEventListener('click',async()=>{const text=$('promptOut').value;if(!text){$('promptOut').value=makePrompt();}try{await navigator.clipboard.writeText($('promptOut').value);$('copyPrompt').textContent='コピーしました';setTimeout(()=>$('copyPrompt').textContent='プロンプトをコピー',1800);}catch(e){$('promptOut').focus();$('promptOut').select();document.execCommand('copy');}});
+$('openChatGPT').addEventListener('click',()=>window.open('https://chatgpt.com/','_blank','noopener'));
+$('exportData').addEventListener('click',()=>{const blob=new Blob([JSON.stringify({...state,exportedAt:new Date().toISOString()},null,2)],{type:'application/json'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download=`external-brain-backup-${dateKey(new Date())}.json`;a.click();URL.revokeObjectURL(url);});
+$('importButton').addEventListener('click',()=>$('importFile').click());
+$('importFile').addEventListener('change',async e=>{const file=e.target.files[0];if(!file)return;try{const parsed=JSON.parse(await file.text());if(!parsed||!Array.isArray(parsed.tasks)||!Array.isArray(parsed.ideas)||!Array.isArray(parsed.money))throw new Error('format');if(!confirm('現在のデータを読み込んだデータで置き換えます。続けますか？'))return;state={tasks:parsed.tasks,ideas:parsed.ideas,money:parsed.money,focusText:parsed.focusText||'収益につながる作業を1つ進める。'};save();render();alert('復元しました。');}catch(err){alert('バックアップを読み込めません。正しいJSONファイルか確認してください。');}finally{$('importFile').value='';}});
+$('resetTasks').addEventListener('click',()=>{if(confirm('すべてのタスクを削除しますか？')){state.tasks=[];save();renderTasks();}});
+$('resetAll').addEventListener('click',()=>{if(confirm('タスク・アイデア・収益記録をすべて削除します。この操作は取り消せません。事前にバックアップしましたか？')){state={tasks:[],ideas:[],money:[],focusText:'収益につながる作業を1つ進める。'};save();render();}});
+$('todayDate').textContent=now.toLocaleDateString('ja-JP',{month:'long',day:'numeric',weekday:'short'});
+load();render();save();
+if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost')) {
+  window.addEventListener('load', () => navigator.serviceWorker.register('./service-worker.js').catch(() => {}));
+}
+})();
+</script>
+</body>
+</html>
